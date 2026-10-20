@@ -70,3 +70,6 @@ desktop.ini
 
 # Plotted graphs
 *.png
+!logo.png
+!favicon.png
+!logo.jpg
