@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEMC Router Simulation - Lowest Energy & Minimum Congestion Routing</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="brand-logo-container">
+          <img src="logo.png" alt="LEMC Router Logo" class="brand-logo-img">
+        </div>
+        <div class="brand-titles">
+          <h1>LEMC Router <span class="brand-badge">AI Predictive Routing</span></h1>
+          <p>Lowest Energy &amp; Minimum Congestion Next-Hop Steering Simulator</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- View Mode Switcher -->
+        <div class="mode-toggle-group">
+          <button class="mode-toggle-btn active" data-mode="lemc" title="Show optimal route chosen by LEMC ML Model">LEMC Model</button>
+          <button class="mode-toggle-btn" data-mode="traditional" title="Show static shortest path used by traditional routers">Traditional (No Model)</button>
+          <button class="mode-toggle-btn" data-mode="split" title="Simultaneously simulate both routing schemes side-by-side">Dual Comparison</button>
+        </div>
+
+        <button id="btnToggleAudio" class="btn" title="Toggle audio sound effects">
+          🔇 Audio: Off
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Scenario Selector Bar -->
+    <section class="scenario-bar">
+      <div class="scenario-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <span>Network Scenarios:</span>
+      </div>
+      <div class="scenario-buttons">
+        <button class="scenario-chip active" data-preset="peak_hour">Peak Hour Rush (Bottleneck on Path 1)</button>
+        <button class="scenario-chip" data-preset="green_energy">Green Energy Optimization</button>
+        <button class="scenario-chip" data-preset="iot_storm">Massive IoT (mMTC) Burst</button>
+        <button class="scenario-chip" data-preset="balanced">Balanced State</button>
+        <button class="scenario-chip" id="btnRandomize" style="border-style:dashed;">🎲 Randomize State</button>
+      </div>
+    </section>
+
+    <!-- Simulation Main Grid -->
+    <div class="simulation-grid">
+
+      <!-- LEFT: Dynamic Network Topology & Real-time Canvas Animation -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>Network Topology &amp; Packet Flow</h2>
+            <p>Live packet transmission through candidate next-hop routing paths</p>
+          </div>
+          <div class="toolbar-controls">
+            <button id="btnToggleStream" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              Pause Stream
+            </button>
+            <button id="btnFirePacket" class="btn btn-emerald">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send Packet
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="canvas-wrapper">
+            <canvas id="networkCanvas"></canvas>
+          </div>
+
+          <div class="simulation-toolbar">
+            <div class="slider-group">
+              <label for="streamRateSlider">Traffic Injection Rate:</label>
+              <input type="range" id="streamRateSlider" min="0.5" max="15" step="0.5" value="3.5">
+              <span id="streamRateVal" style="font-weight:600; min-width:55px;">3.5 pkt/s</span>
+            </div>
+
+            <div class="toolbar-controls">
+              <button id="btnResetStats" class="btn" style="font-size:0.78rem; padding: 0.35rem 0.65rem;">
+                Reset Telemetry
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Multi-Path Configurator & 7 ML Input Fields -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>Path Inputs &amp; ML Inference</h2>
+            <p>Configure 7 input parameters per candidate path &amp; inspect predictions</p>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- Path Selection Tabs -->
+          <div class="path-tabs" id="pathTabs">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- 7 Input Fields Form -->
+          <div class="inputs-grid" id="inputsContainer">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- Predictions Triplet Box -->
+          <div class="predictions-box">
+            <div class="predictions-header">
+              <h3>Model Predicted Outputs</h3>
+              <span style="font-size:0.72rem; color:var(--text-muted);">Real-time Inference</span>
+            </div>
+
+            <div class="prediction-triplet">
+              <!-- Feature 1: Future Traffic Demand -->
+              <div class="prediction-card">
+                <span class="pred-title">1. Future Traffic</span>
+                <span class="pred-val" id="predTraffic">--</span>
+                <span class="pred-unit">Mbps Demand</span>
+                <div class="pred-gauge">
+                  <div class="pred-gauge-fill fill-traffic" id="gaugeTraffic" style="width: 45%;"></div>
+                </div>
+              </div>
+
+              <!-- Feature 2: Future Congestion Index -->
+              <div class="prediction-card">
+                <span class="pred-title">2. Future Congestion</span>
+                <span class="pred-val" id="predCongestion">--</span>
+                <span class="pred-unit">Index (0-100)</span>
+                <div class="pred-gauge">
+                  <div class="pred-gauge-fill fill-congestion" id="gaugeCongestion" style="width: 25%;"></div>
+                </div>
+              </div>
+
+              <!-- Feature 3: Predicted Energy Requirement -->
+              <div class="prediction-card">
+                <span class="pred-title">3. Predicted Energy</span>
+                <span class="pred-val" id="predEnergy">--</span>
+                <span class="pred-unit">kWh per node</span>
+                <div class="pred-gauge">
+                  <div class="pred-gauge-fill fill-energy" id="gaugeEnergy" style="width: 35%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LEMC Index Box -->
+          <div class="lemc-result-box" id="lemcBox">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.2rem;">
+                <span style="font-size:0.78rem; font-weight:700; text-transform:uppercase; color:var(--text-secondary);">LEMC Composite Index</span>
+                <span id="lemcWinnerBadge" class="status-pill pill-lemc" style="display:none;">★ Lowest LEMC (Optimal Choice)</span>
+              </div>
+              <div class="lemc-score-display">
+                <span class="lemc-score-number" id="lemcScore">--</span>
+                <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">/ 100</span>
+              </div>
+              <div class="lemc-formula-tag" id="lemcFormulaBreakdown">
+                <!-- Formula breakdown rendered by app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 50% / 50% Weights Controller -->
+          <div class="weights-controller">
+            <span style="font-weight:600;">LEMC Weight Distribution:</span>
+            <div style="display:flex; align-items:center; gap:0.6rem; flex:1; max-width:260px; margin: 0 0.8rem;">
+              <span id="weightTrafficLabel" style="font-weight:700; color:#0ea5e9;">50%</span>
+              <input type="range" id="weightSlider" min="10" max="90" step="5" value="50" style="flex:1; accent-color:#0f172a;">
+              <span id="weightEnergyLabel" style="font-weight:700; color:#10b981;">50%</span>
+            </div>
+            <span style="font-size:0.7rem; color:var(--text-muted);">(Traffic vs Energy)</span>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- COMPARISON SECTION: Model vs Without Model (Traditional Router) -->
+    <section class="comparison-section">
+
+      <!-- Top KPI Summary Cards -->
+      <div class="comparison-banner">
+        <div class="kpi-stat-card">
+          <div class="kpi-title">Energy Consumption Saved</div>
+          <div class="kpi-value" id="kpiEnergySaved" style="color:var(--accent-emerald);">0.0%</div>
+          <div class="kpi-delta positive" id="kpiEnergySavedSub">Saves 0.0000 kWh per run</div>
+        </div>
+
+        <div class="kpi-stat-card">
+          <div class="kpi-title">Congestion Relief</div>
+          <div class="kpi-value" id="kpiCongestionRelief" style="color:#0ea5e9;">0.0%</div>
+          <div class="kpi-delta positive" id="kpiCongestionReliefSub">Avoids bottleneck surges</div>
+        </div>
+
+        <div class="kpi-stat-card">
+          <div class="kpi-title">Latency Reduction</div>
+          <div class="kpi-value" id="kpiLatency" style="color:var(--accent-indigo);">0.0%</div>
+          <div class="kpi-delta positive" id="kpiLatencySub">Lower queue delay</div>
+        </div>
+
+        <div class="kpi-stat-card">
+          <div class="kpi-title">LEMC Packet Loss Rate</div>
+          <div class="kpi-value" id="kpiPacketLoss">0.02%</div>
+          <div class="kpi-delta positive" id="kpiPacketLossSub">Zero buffer drops</div>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Comparison Table -->
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>Performance Comparison: With LEMC Model vs. Without Model (Traditional Routing)</h2>
+            <p>Detailed architectural benchmark showing how predictive intelligence prevents network degradation</p>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th class="feature-col">Evaluation Metric</th>
+                  <th class="lemc-col">
+                    <span style="color:var(--accent-emerald);">●</span> Router With LEMC Model (AI Intelligent)
+                  </th>
+                  <th class="trad-col">
+                    <span style="color:var(--accent-rose);">●</span> Router Without Model (Traditional Static / OSPF)
+                  </th>
+                  <th class="diff-col">Advantage</th>
+                </tr>
+              </thead>
+              <tbody id="comparisonTableBody">
+                <!-- Rendered dynamically by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- All Candidate Paths Ranked Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>Candidate Path Evaluation &amp; LEMC Index Ranking</h2>
+            <p>Multi-attribute ranking table showing normalized scores and winner selection</p>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div class="table-responsive">
+            <table class="all-paths-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Path Name</th>
+                  <th>Predicted Traffic Demand</th>
+                  <th>Predicted Congestion</th>
+                  <th>Predicted Energy</th>
+                  <th>Norm. Traffic (50%)</th>
+                  <th>Norm. Energy (50%)</th>
+                  <th>LEMC Index</th>
+                </tr>
+              </thead>
+              <tbody id="allPathsTableBody">
+                <!-- Rendered dynamically by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architecture & Routing Theory Card -->
+      <div class="card" style="margin-top: 1.5rem;">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2>How Routers Implement LEMC: Architecture &amp; Mathematical Formulation</h2>
+            <p>Theoretical and deployment principles for college presentation and project evaluation</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+            <div>
+              <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">1. Chained ML Prediction Pipeline</h3>
+              <p>Standard static routing protocols (e.g., OSPF, RIP, BGP) evaluate only static link weights or hop counts. LEMC uses a 3-stage predictive pipeline:</p>
+              <ul style="padding-left: 1.2rem; margin-top: 0.4rem;">
+                <li><strong>Stage 1 (Traffic Demand):</strong> Forecasts future traffic surges from active user counts, uplink/downlink ratios, and temporal factors.</li>
+                <li><strong>Stage 2 (Congestion Index):</strong> Predicts buffer saturation and link strain chained with predicted traffic volume.</li>
+                <li><strong>Stage 3 (Energy Consumption):</strong> Predicts future kilowatt-hour (kWh) power draw and operational hardware stress.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">2. Composite LEMC Index Formulation</h3>
+              <p>To eliminate unit disparity between traffic (Mbps) and energy (kWh), both features are min-max normalized across all candidate next-hop paths:</p>
+              <div style="background: var(--bg-subtle); padding: 0.6rem 0.8rem; border-radius: 6px; font-family: monospace; font-size: 0.8rem; margin: 0.5rem 0;">
+                LEMC_i = 0.50 &times; T_norm(i) + 0.50 &times; E_norm(i)<br>
+                Path* = argmin(LEMC_i)
+              </div>
+              <p>The router's Forwarding Information Base (FIB) dynamically selects the path minimizing this cost function.</p>
+            </div>
+
+            <div>
+              <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">3. Production SDN / OpenFlow Integration</h3>
+              <p>In modern 5G core and software-defined networks (SDN):</p>
+              <ul style="padding-left: 1.2rem; margin-top: 0.4rem;">
+                <li><strong>In-band Network Telemetry (INT):</strong> Intermediate switches periodically send the 7 telemetry metrics to the SDN controller.</li>
+                <li><strong>Inference at Edge Controller:</strong> The ML model predicts future states before congestion queues can form.</li>
+                <li><strong>Proactive Flow Rules:</strong> OpenFlow / P4 flow rules update next-hop ports preemptively, preventing packet drops.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div style="display:inline-flex; align-items:center; gap:0.6rem; margin-bottom:0.4rem;">
+        <img src="logo.png" alt="LEMC Router" style="height:22px; width:auto; border-radius:5px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+        <strong style="color:var(--text-main); font-size:0.88rem;">LEMC Router Simulation</strong>
+      </div>
+      <p>Lowest Energy &amp; Minimum Congestion Next-Hop Routing &bull; Built with HTML5, CSS3 Claymorphism, &amp; Vanilla JavaScript</p>
+    </footer>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="model.js"></script>
+  <script src="simulation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

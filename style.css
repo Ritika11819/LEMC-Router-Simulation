@@ -1,0 +1,1033 @@
+/* ==========================================================================
+   LEMC ROUTER - Modern Claymorphism UI Stylesheet
+   Soft 3D Tactile Aesthetic • Light Grey-White Palette • Interactive Depth
+   ========================================================================== */
+
+:root {
+  /* Soft Clay Canvas Background */
+  --bg-app: #e9eef5;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5fa;
+  --bg-well: #e2e8f2;
+
+  /* Text & Labels */
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #8898aa;
+
+  /* Accent Colors */
+  --accent-emerald: #10b981;
+  --accent-emerald-light: #d1fae5;
+  --accent-emerald-dark: #059669;
+
+  --accent-rose: #ef4444;
+  --accent-rose-light: #fee2e2;
+  --accent-rose-dark: #dc2626;
+
+  --accent-amber: #f59e0b;
+  --accent-amber-light: #fef3c7;
+
+  --accent-sky: #0ea5e9;
+  --accent-sky-light: #e0f2fe;
+
+  --accent-indigo: #6366f1;
+
+  /* Claymorphism Radii */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-pill: 9999px;
+
+  /* Claymorphism Shadows (Double-Layered Inner & Outer) */
+  --clay-card-shadow: 
+    8px 12px 24px rgba(166, 180, 200, 0.45),
+    -8px -8px 20px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(166, 180, 200, 0.2);
+
+  --clay-card-hover: 
+    10px 16px 28px rgba(166, 180, 200, 0.55),
+    -10px -10px 24px rgba(255, 255, 255, 1.0),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.95),
+    inset -4px -4px 8px rgba(166, 180, 200, 0.25);
+
+  --clay-btn-shadow:
+    5px 6px 14px rgba(166, 180, 200, 0.4),
+    -4px -4px 10px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.8),
+    inset -2px -2px 4px rgba(166, 180, 200, 0.25);
+
+  --clay-btn-pressed:
+    inset 3px 3px 6px rgba(166, 180, 200, 0.4),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.9);
+
+  --clay-well-shadow:
+    inset 3px 3px 6px rgba(166, 180, 200, 0.35),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.95);
+
+  --transition-tactile: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-smooth: all 0.25s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 4rem;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.85) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(200, 215, 235, 0.4) 0%, transparent 45%);
+  background-attachment: fixed;
+}
+
+/* --------------------------------------------------------------------------
+   Layout & Container
+   -------------------------------------------------------------------------- */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.75rem 2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Header & Topbar (Clay Floating Bar)
+   -------------------------------------------------------------------------- */
+.app-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 0.9rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 8px 20px rgba(166, 180, 200, 0.25);
+}
+
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Brand Logo (Clay 3D Framed Emblem - 1.5:1 aspect ratio) */
+.brand-logo-container {
+  height: 54px;
+  width: 82px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 2px 4px;
+  box-shadow: 
+    4px 6px 14px rgba(166, 180, 200, 0.4),
+    -4px -4px 10px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9),
+    inset -2px -2px 4px rgba(166, 180, 200, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  flex-shrink: 0;
+  transition: var(--transition-tactile);
+}
+
+.brand-logo-container:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+}
+
+.brand-titles h1 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.brand-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  background: linear-gradient(135deg, #ffffff, var(--bg-subtle));
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  box-shadow: var(--clay-btn-shadow);
+  letter-spacing: 0.04em;
+}
+
+.brand-titles p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   Clay Mode Switcher Pills
+   -------------------------------------------------------------------------- */
+.mode-toggle-group {
+  display: flex;
+  background: var(--bg-well);
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-well-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.mode-toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-tactile);
+}
+
+.mode-toggle-btn:hover {
+  color: var(--text-main);
+}
+
+.mode-toggle-btn.active {
+  background: #ffffff;
+  color: var(--text-main);
+  box-shadow: 
+    3px 4px 10px rgba(166, 180, 200, 0.4),
+    -2px -2px 6px rgba(255, 255, 255, 0.95),
+    inset 1.5px 1.5px 3px rgba(255, 255, 255, 0.9),
+    inset -1.5px -1.5px 3px rgba(166, 180, 200, 0.15);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Clay Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #ffffff, #f0f4f9);
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: var(--clay-btn-shadow);
+  transition: var(--transition-tactile);
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  color: var(--text-main);
+  box-shadow: 
+    7px 8px 18px rgba(166, 180, 200, 0.45),
+    -5px -5px 12px rgba(255, 255, 255, 1.0);
+}
+
+.btn:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: var(--clay-btn-pressed);
+}
+
+/* Charcoal Clay Button */
+.btn-primary {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    4px 6px 14px rgba(15, 23, 42, 0.25),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.25),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(145deg, #334155, #1e293b);
+  color: #ffffff;
+  box-shadow: 
+    6px 8px 18px rgba(15, 23, 42, 0.35),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.35);
+}
+
+.btn-primary:active {
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Emerald Clay Button */
+.btn-emerald {
+  background: linear-gradient(145deg, #10b981, #059669);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    4px 6px 14px rgba(16, 185, 129, 0.35),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 4px rgba(4, 120, 87, 0.4);
+}
+
+.btn-emerald:hover {
+  background: linear-gradient(145deg, #34d399, #059669);
+  color: #ffffff;
+  box-shadow: 
+    6px 9px 18px rgba(16, 185, 129, 0.45),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.btn-emerald:active {
+  box-shadow: inset 3px 3px 6px rgba(4, 120, 87, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Clay Scenario Bar (Inflated Pill Ribbon)
+   -------------------------------------------------------------------------- */
+.scenario-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.75rem;
+  box-shadow: var(--clay-card-shadow);
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.scenario-label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.scenario-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.scenario-chip {
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  background: linear-gradient(145deg, #ffffff, #f1f5fa);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: var(--clay-btn-shadow);
+  transition: var(--transition-tactile);
+}
+
+.scenario-chip:hover {
+  transform: translateY(-2px);
+  color: var(--text-main);
+}
+
+.scenario-chip:active {
+  transform: translateY(1px);
+  box-shadow: var(--clay-btn-pressed);
+}
+
+.scenario-chip.active {
+  background: linear-gradient(145deg, #1e293b, #0f172a);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    4px 6px 14px rgba(15, 23, 42, 0.25),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Clay Cards Grid
+   -------------------------------------------------------------------------- */
+.simulation-grid {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1100px) {
+  .simulation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--clay-card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-smooth);
+}
+
+.card-header {
+  padding: 1.25rem 1.6rem;
+  border-bottom: 1.5px solid var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #ffffff, #fafcff);
+}
+
+.card-title-group h2 {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.015em;
+}
+
+.card-title-group p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.card-body {
+  padding: 1.4rem 1.6rem;
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Canvas & Simulation Panel (Digital Cockpit Well)
+   -------------------------------------------------------------------------- */
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  border-radius: var(--radius-lg);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: var(--clay-well-shadow);
+}
+
+#networkCanvas {
+  display: block;
+  width: 100%;
+  height: 420px;
+}
+
+.simulation-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 0.2rem 0.2rem;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.slider-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-well-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* --------------------------------------------------------------------------
+   Clay Path Configurator & Tabs
+   -------------------------------------------------------------------------- */
+.path-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--bg-subtle);
+  margin-bottom: 1.35rem;
+  gap: 0.55rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.path-tab-btn {
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  background: linear-gradient(145deg, #ffffff, #f1f4f9);
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: var(--clay-btn-shadow);
+  transition: var(--transition-tactile);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.path-tab-btn:hover {
+  transform: translateY(-2px);
+  color: var(--text-main);
+}
+
+.path-tab-btn.active {
+  background: linear-gradient(145deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    4px 6px 14px rgba(14, 165, 233, 0.35),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 4px rgba(2, 132, 199, 0.4);
+  transform: translateY(-1px);
+}
+
+.path-tab-btn.is-optimal.active {
+  background: linear-gradient(145deg, #10b981, #059669);
+  box-shadow: 
+    4px 6px 14px rgba(16, 185, 129, 0.35),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.tab-badge {
+  font-size: 0.68rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+}
+
+.path-tab-btn.active .tab-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.tab-badge.optimal {
+  background: var(--accent-emerald-light);
+  color: var(--accent-emerald-dark);
+}
+
+/* --------------------------------------------------------------------------
+   Clay 7 Input Fields Form
+   -------------------------------------------------------------------------- */
+.inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+@media (max-width: 600px) {
+  .inputs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--bg-subtle);
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--clay-card-shadow);
+}
+
+.input-item label {
+  font-size: 0.77rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-unit {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.input-control-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Inset 3D Clay Number Box */
+.input-number {
+  width: 95px;
+  padding: 0.42rem 0.65rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-main);
+  background: var(--bg-well);
+  box-shadow: var(--clay-well-shadow);
+  transition: var(--transition-tactile);
+}
+
+.input-number:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #0ea5e9;
+  box-shadow: 
+    0 0 0 3px rgba(14, 165, 233, 0.25),
+    var(--clay-btn-shadow);
+}
+
+/* Tactile Clay Slider */
+.input-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: var(--bg-well);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-well-shadow);
+  outline: none;
+  cursor: pointer;
+}
+
+.input-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(145deg, #ffffff, #d9e2ec);
+  box-shadow: 
+    2px 3px 6px rgba(166, 180, 200, 0.5),
+    -2px -2px 5px rgba(255, 255, 255, 0.95),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: var(--transition-tactile);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.input-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Clay Predictions & LEMC Result Box
+   -------------------------------------------------------------------------- */
+.predictions-box {
+  background: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem;
+  margin-bottom: 1.35rem;
+  box-shadow: var(--clay-card-shadow);
+}
+
+.predictions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.predictions-header h3 {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.prediction-triplet {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 500px) {
+  .prediction-triplet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prediction-card {
+  background: linear-gradient(145deg, #ffffff, var(--bg-subtle));
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--clay-btn-shadow);
+  transition: var(--transition-tactile);
+}
+
+.prediction-card:hover {
+  transform: translateY(-2px);
+}
+
+.pred-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.pred-val {
+  font-size: 1.22rem;
+  font-weight: 900;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.pred-unit {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.pred-gauge {
+  height: 7px;
+  background: var(--bg-well);
+  border-radius: var(--radius-pill);
+  margin-top: 0.55rem;
+  overflow: hidden;
+  box-shadow: var(--clay-well-shadow);
+}
+
+.pred-gauge-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-smooth);
+}
+
+.fill-traffic { background: linear-gradient(90deg, #38bdf8, #0284c7); }
+.fill-congestion { background: linear-gradient(90deg, #fbbf24, #d97706); }
+.fill-energy { background: linear-gradient(90deg, #34d399, #059669); }
+
+/* LEMC Composite Result Box (Hero Clay Card) */
+.lemc-result-box {
+  background: linear-gradient(135deg, #ffffff, #f1f5fa);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: var(--clay-card-shadow);
+  transition: var(--transition-smooth);
+}
+
+.lemc-result-box.optimal {
+  background: linear-gradient(135deg, #ffffff, var(--accent-emerald-light));
+  border-color: #a7f3d0;
+  box-shadow: 
+    8px 12px 24px rgba(16, 185, 129, 0.25),
+    -6px -6px 16px rgba(255, 255, 255, 0.95),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(16, 185, 129, 0.2);
+}
+
+.lemc-score-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.lemc-score-number {
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-main);
+}
+
+.lemc-score-number.winner {
+  color: var(--accent-emerald-dark);
+}
+
+.lemc-formula-tag {
+  font-size: 0.77rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.lemc-formula-tag code {
+  font-family: monospace;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* Weight distribution control */
+.weights-controller {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background: #ffffff;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--clay-btn-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   Clay Comparison Section & KPI Banners
+   -------------------------------------------------------------------------- */
+.comparison-section {
+  margin-bottom: 2.5rem;
+}
+
+.comparison-banner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (max-width: 900px) {
+  .comparison-banner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.kpi-stat-card {
+  background: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--clay-card-shadow);
+  transition: var(--transition-tactile);
+}
+
+.kpi-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--clay-card-hover);
+}
+
+.kpi-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.kpi-value {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.kpi-delta {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+  display: inline-block;
+  margin-top: 0.35rem;
+  box-shadow: var(--clay-btn-shadow);
+}
+
+.kpi-delta.positive {
+  background: var(--accent-emerald-light);
+  color: var(--accent-emerald-dark);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.kpi-delta.neutral {
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Clay Comparison Tables
+   -------------------------------------------------------------------------- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+  box-shadow: var(--clay-well-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.86rem;
+}
+
+.comparison-table th {
+  background: var(--bg-subtle);
+  padding: 1rem 1.3rem;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  border-bottom: 1.5px solid var(--bg-well);
+}
+
+.comparison-table td {
+  padding: 1.05rem 1.3rem;
+  border-bottom: 1px solid var(--bg-well);
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+.comparison-table tr:hover td {
+  background: #f8fafc;
+}
+
+.feature-col {
+  font-weight: 700;
+  color: var(--text-main);
+  width: 25%;
+}
+
+.lemc-col {
+  width: 32%;
+  background: rgba(16, 185, 129, 0.03);
+}
+
+.trad-col {
+  width: 32%;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+.diff-col {
+  width: 11%;
+  text-align: right;
+  font-weight: 800;
+}
+
+/* Status Pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.76rem;
+  font-weight: 800;
+  box-shadow: var(--clay-btn-shadow);
+}
+
+.pill-lemc {
+  background: linear-gradient(135deg, #ffffff, var(--accent-emerald-light));
+  color: var(--accent-emerald-dark);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.pill-trad {
+  background: linear-gradient(135deg, #ffffff, var(--accent-rose-light));
+  color: var(--accent-rose-dark);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+/* All Paths Table */
+.all-paths-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.all-paths-table th {
+  padding: 0.85rem 1.1rem;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-weight: 700;
+  border-bottom: 1.5px solid var(--bg-well);
+}
+
+.all-paths-table td {
+  padding: 0.95rem 1.1rem;
+  border-bottom: 1px solid var(--bg-well);
+  font-variant-numeric: tabular-nums;
+}
+
+.all-paths-table tr.optimal-row {
+  background: rgba(16, 185, 129, 0.06);
+  font-weight: 700;
+}
+
+.all-paths-table tr.optimal-row td:first-child {
+  border-left: 4px solid var(--accent-emerald);
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.app-footer {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1.5px solid var(--bg-well);
+}
