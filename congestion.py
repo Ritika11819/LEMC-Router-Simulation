@@ -48,6 +48,7 @@ TRAFFIC_FEATURES = [
     "Packet_Arrival_Rate_Kpps",
     "Memory_Utilization_Pct",
     "Active_Core_Nodes",
+    # Categorical columns (will be one-hot encoded)
     "Service_Class",
     "Network_Slice",
     "Network_Condition",
@@ -70,9 +71,9 @@ CONGESTION_FEATURES = [
     "Downlink_Traffic_Mbps",
     "Energy_Efficiency_Mbps_per_kWh",
     "CPU_Utilization_Pct",
+    # Categorical columns (will be one-hot encoded)
     "Service_Class",
     "Network_Slice",
-    "Network_Condition",
     "Network_Condition",
 ]
 
@@ -132,6 +133,9 @@ def plot_prediction_graph(
     save_path: str | None = None,
     show: bool = False,
 ):
+    """
+    Plots the line graph for a single model target comparing original vs predicted values.
+    """
     y_true = np.asarray(y_true)
     y_pred = np.asarray(y_pred)
     n_pts = min(num_samples, len(y_true))
@@ -143,6 +147,7 @@ def plot_prediction_graph(
     fig, ax = plt.subplots(figsize=(12, 5))
     unit_str = f" ({unit})" if unit else ""
 
+    # Line plot comparing original vs predicted
     ax.plot(
         range(n_pts),
         y_true[:n_pts],
@@ -202,9 +207,18 @@ def plot_all_models(
     save_dir: str = BASE_DIR,
     show: bool = True,
 ):
+    """
+    Plots line comparison graphs for both models:
+      1. Future Traffic Demand (Mbps): Original vs Predicted
+      2. Future Congestion Index: Original vs Predicted
+
+    Generates individual line plots as well as a combined 2-panel comparison figure.
+    """
     traffic_plot_path = os.path.join(save_dir, "future_traffic_evaluation.png")
     congestion_plot_path = os.path.join(save_dir, "future_congestion_evaluation.png")
     combined_plot_path = os.path.join(save_dir, "model_predictions_comparison.png")
+
+    # Generate individual model plots
     plot_prediction_graph(
         yt_test,
         yt_pred,
@@ -214,6 +228,7 @@ def plot_all_models(
         save_path=traffic_plot_path,
         show=False,
     )
+
     plot_prediction_graph(
         yc_test,
         yc_pred,
@@ -224,12 +239,14 @@ def plot_all_models(
         show=False,
     )
 
+    # Generate combined figure with 2 stacked subplots (one for each model)
     fig, axes = plt.subplots(2, 1, figsize=(14, 9))
     fig.suptitle("Original vs. Predicted Network State Comparison", fontsize=15, fontweight="bold", y=0.98)
 
     n_pts_t = min(num_samples, len(yt_test))
     n_pts_c = min(num_samples, len(yc_test))
 
+    # Subplot 1: Future Traffic Demand Line Comparison
     axes[0].plot(
         range(n_pts_t),
         yt_test[:n_pts_t],
@@ -270,6 +287,7 @@ def plot_all_models(
         fontsize=9,
     )
 
+    # Subplot 2: Future Congestion Index Line Comparison
     axes[1].plot(
         range(n_pts_c),
         yc_test[:n_pts_c],
@@ -320,6 +338,7 @@ def plot_all_models(
 
     return fig
 
+
 def predict_future(
     input_data: dict | pd.DataFrame,
     traffic_model: HistGradientBoostingRegressor,
@@ -335,6 +354,7 @@ def predict_future(
 
     input_df = engineer_features(input_df)
 
+    # Stage 1 – select only the columns that actually exist in input_df
     traffic_cat_cols = [c for c in TRAFFIC_FEATURES if c in CATEGORICAL_COLS and c in input_df.columns]
     traffic_num_cols = [c for c in TRAFFIC_FEATURES if c not in CATEGORICAL_COLS and c in input_df.columns]
 
@@ -344,6 +364,7 @@ def predict_future(
 
     predicted_traffic = traffic_model.predict(traffic_input.values)
 
+    # Stage 2 – select only columns that exist
     congestion_cat_cols = [c for c in CONGESTION_FEATURES if c in CATEGORICAL_COLS and c in input_df.columns]
     congestion_num_cols = [c for c in CONGESTION_FEATURES if c not in CATEGORICAL_COLS and c in input_df.columns]
 
